@@ -4,35 +4,32 @@
 #include <sstream>
 
 #define INT unsigned long long int
+#define FILE "primes.txt"
 
 std::vector<INT> loadPrimes() {
 	std::vector<INT> primes;
-	std::ifstream stream("primes.txt");
+	std::ifstream stream(FILE);
 	std::string line;
 
-	while (getline(stream, line)) {
-		primes.push_back(std::stoull(line));
-	}
-
+	while (getline(stream, line)) { primes.push_back(std::stoull(line)); }
 
 	if (primes.size() == 0) {
 		std::cout << "Primes Database was empty\n";
-		return std::vector<INT>({ 2 });
+		return std::vector<INT>({ 2, 3 });
 	}
 
-	std::cout << "Loaded primes till " << primes[primes.size()-1] << "\n";
 	return primes;
 }
 
 int main() {
 	std::vector<INT> primes = loadPrimes();
-	std::ofstream stream("primes.txt");
+	std::ofstream stream(FILE);
 
-	for (const INT& previousPrimes : primes) {
-		stream << previousPrimes << "\n";
-	}
+	for (const INT& previousPrimes : primes) { stream << previousPrimes << "\n"; }
 
 	INT i = primes[primes.size()-1];
+	unsigned short int iter = 0;
+	std::cout << "Loaded primes till " << i << "\n";
 	while (true) {
 		bool isPrime = true;
 		for (const INT& prime : primes) {
@@ -45,12 +42,11 @@ int main() {
 			primes.push_back(i);
 			stream << i << "\n";
 		}
-		i++;
-		if (i % 50000 == 0) {
+		i += 2;
+		if (iter == 65000) {
 			stream.flush();
-		}
-		if (i % 100000 == 0) {
 			std::cout << "Reached " << i << "\n";
+			iter = 0;
 		}
 	}
 
