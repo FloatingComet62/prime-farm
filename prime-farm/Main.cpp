@@ -27,7 +27,8 @@ int main() {
 
 	for (const INT& previousPrimes : primes) { stream << previousPrimes << "\n"; }
 
-	INT i = primes[primes.size()-1];
+	INT i = primes[primes.size() - 1];
+	INT last_prime = i;
 	unsigned short int iter = 0;
 	std::cout << "Loaded primes till " << i << "\n";
 	while (true) {
@@ -39,13 +40,15 @@ int main() {
 			}
 		}
 		if (isPrime) {
+			last_prime = i;
 			primes.push_back(i);
 			stream << i << "\n";
 		}
 		i += 2;
-		if (iter == 65000) {
+		iter++;
+		if (iter == 1000) { std::cout << "Reached " << last_prime << "\n"; }
+		if (iter == 5000) {
 			stream.flush();
-			std::cout << "Reached " << i << "\n";
 			iter = 0;
 		}
 	}
