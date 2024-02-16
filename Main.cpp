@@ -11,7 +11,12 @@ std::vector<INT> loadPrimes() {
 	std::ifstream stream(FILE);
 	std::string line;
 
-	while (getline(stream, line)) { primes.push_back(std::stoull(line)); }
+	while (getline(stream, line)) {
+		try {
+		auto val = std::stoull(line);
+		primes.push_back(val);
+		} catch (const std::invalid_argument& _e) {}
+	}
 
 	if (primes.size() == 0) {
 		std::cout << "Primes Database was empty\n";
